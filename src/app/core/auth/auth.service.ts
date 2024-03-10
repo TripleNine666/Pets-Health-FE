@@ -47,26 +47,7 @@ export class AuthService
         }
 
         return this._httpClient.post(`${this._baseUrl}/${EndpointsHelper.signIn}`, credentials).pipe(
-            switchMap((response: any) =>
-            {
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                const decodetToken = this.getDecodedAccessToken(response.accessToken)
-                console.log(decodetToken)
-                // Store the user on the user service
-                this._userService.user = {
-                    userId: decodetToken.userId,
-                    name: decodetToken.name,
-                    email: decodetToken.email
-                };
-
-                // Return a new observable with the response
-                return of(response);
-            }),
+            switchMap((response: any) => this.afterAuth(response)),
         );
     }
 
@@ -92,7 +73,9 @@ export class AuthService
      */
     signUp(payload: RegisterModel): Observable<any>
     {
-        return this._httpClient.post(`${this._baseUrl}/${EndpointsHelper.signUp}`, payload);
+        return this._httpClient.post(`${this._baseUrl}/${EndpointsHelper.signUp}`, payload).pipe(
+            switchMap((response: any) => this.afterAuth(response)),
+        );
     }
 
     /**`
@@ -121,6 +104,25 @@ export class AuthService
         // If the access token exists, and it didn't expire, sign in using it
         this._authenticated = true
         return of(true);
+    }
+
+    private afterAuth(response){
+        // Store the access token in the local storage
+        this.accessToken = response.accessToken;
+
+        // Set the authenticated flag to true
+        this._authenticated = true;
+
+        const decodetToken = this.getDecodedAccessToken(response.accessToken)
+        // Store the user on the user service
+        this._userService.user = {
+            userId: decodetToken.userId,
+            name: decodetToken.name,
+            email: decodetToken.email
+        };
+
+        // Return a new observable with the response
+        return of(response);
     }
 
     getDecodedAccessToken(token: string): any {

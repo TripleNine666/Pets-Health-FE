@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router, RouterLink } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
@@ -37,6 +37,7 @@ export class AuthSignUpComponent implements OnInit
     constructor(
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
+        private _activatedRoute: ActivatedRoute,
         private _router: Router,
     )
     {
@@ -53,11 +54,9 @@ export class AuthSignUpComponent implements OnInit
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-                name      : ['', Validators.required],
+                fullName      : ['', Validators.required],
                 email     : ['', [Validators.required, Validators.email]],
                 password  : ['', Validators.required],
-                company   : [''],
-                agreements: ['', Validators.requiredTrue],
             },
         );
     }
@@ -89,7 +88,8 @@ export class AuthSignUpComponent implements OnInit
                 (response) =>
                 {
                     // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
+                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                    this._router.navigateByUrl(redirectURL);
                 },
                 (response) =>
                 {
