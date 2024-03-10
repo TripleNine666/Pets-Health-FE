@@ -1,8 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {AuthUtils} from 'app/core/auth/auth.utils';
+import {UserService} from 'app/core/user/user.service';
+import {Observable, of, switchMap, throwError} from 'rxjs';
+import {environment} from "../../../environments/environment";
+import {EndpointsHelper} from "../helpers/Endpoints.helper";
+import {LoginModel, RegisterModel} from "./auth.types";
+import {User} from "../user/user.types";
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({providedIn: 'root'})
 export class AuthService
@@ -10,6 +15,8 @@ export class AuthService
     private _authenticated: boolean = false;
     private _httpClient = inject(HttpClient);
     private _userService = inject(UserService);
+
+    private readonly _baseUrl = environment.apiUrl
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -31,33 +38,7 @@ export class AuthService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Forgot password
-     *
-     * @param email
-     */
-    forgotPassword(email: string): Observable<any>
-    {
-        return this._httpClient.post('api/auth/forgot-password', email);
-    }
-
-    /**
-     * Reset password
-     *
-     * @param password
-     */
-    resetPassword(password: string): Observable<any>
-    {
-        return this._httpClient.post('api/auth/reset-password', password);
-    }
-
-    /**
-     * Sign in
-     *
-     * @param credentials
-     */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    signIn(credentials: LoginModel): Observable<any>
     {
         // Throw error, if the user is already logged in
         if ( this._authenticated )
@@ -65,7 +46,7 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(`${this._baseUrl}/${EndpointsHelper.signIn}`, credentials).pipe(
             switchMap((response: any) =>
             {
                 // Store the access token in the local storage
@@ -74,51 +55,17 @@ export class AuthService
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
+                const decodetToken = this.getDecodedAccessToken(response.accessToken)
+                console.log(decodetToken)
                 // Store the user on the user service
-                this._userService.user = response.user;
+                this._userService.user = {
+                    userId: decodetToken.userId,
+                    name: decodetToken.name,
+                    email: decodetToken.email
+                };
 
                 // Return a new observable with the response
                 return of(response);
-            }),
-        );
-    }
-
-    /**
-     * Sign in using the access token
-     */
-    signInUsingToken(): Observable<any>
-    {
-        // Sign in using the token
-        return this._httpClient.post('api/auth/sign-in-with-token', {
-            accessToken: this.accessToken,
-        }).pipe(
-            catchError(() =>
-
-                // Return false
-                of(false),
-            ),
-            switchMap((response: any) =>
-            {
-                // Replace the access token with the new one if it's available on
-                // the response object.
-                //
-                // This is an added optional step for better security. Once you sign
-                // in using the token, you should generate a new one on the server
-                // side and attach it to the response object. Then the following
-                // piece of code can replace the token with the refreshed one.
-                if ( response.accessToken )
-                {
-                    this.accessToken = response.accessToken;
-                }
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                // Store the user on the user service
-                this._userService.user = response.user;
-
-                // Return true
-                return of(true);
             }),
         );
     }
@@ -141,24 +88,14 @@ export class AuthService
     /**
      * Sign up
      *
-     * @param user
+     * @param payload
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
+    signUp(payload: RegisterModel): Observable<any>
     {
-        return this._httpClient.post('api/auth/sign-up', user);
+        return this._httpClient.post(`${this._baseUrl}/${EndpointsHelper.signUp}`, payload);
     }
 
-    /**
-     * Unlock session
-     *
-     * @param credentials
-     */
-    unlockSession(credentials: { email: string; password: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/unlock-session', credentials);
-    }
-
-    /**
+    /**`
      * Check the authentication status
      */
     check(): Observable<boolean>
@@ -182,6 +119,15 @@ export class AuthService
         }
 
         // If the access token exists, and it didn't expire, sign in using it
-        return this.signInUsingToken();
+        this._authenticated = true
+        return of(true);
+    }
+
+    getDecodedAccessToken(token: string): any {
+        try {
+            return jwtDecode(token);
+        } catch(Error) {
+            return null;
+        }
     }
 }

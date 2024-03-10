@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { forkJoin } from 'rxjs';
+import {UserService} from "./core/user/user.service";
 
 export const initialDataResolver = () =>
 {
