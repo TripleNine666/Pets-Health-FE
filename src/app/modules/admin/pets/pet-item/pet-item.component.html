@@ -1,0 +1,26 @@
+<fuse-card class="w-full flex items-center p-4 mat-elevation-z4" [ngClass]="{'gap-8': pet.type === PetTypeEnum.dog,'gap-4': pet.type === PetTypeEnum.cat }">
+    @if(pet.type === PetTypeEnum.dog) {
+        <div class="w-[200px] h-[200px] flex items-center">
+            <img  src="assets/images/pets/dog.jpg">
+        </div>
+    } @else if (pet.type === PetTypeEnum.cat) {
+        <div class="w-[270px] h-[200px] flex items-center">
+            <img class="w-full" src="assets/images/pets/cat.webp">
+        </div>
+    }
+    <div class="flex flex-col w-full items-center justify-center">
+        <div class="w-full font-semibold text-lg text-orange-500">{{pet.name}}</div>
+        <div class="flex w-full gap-1 items-center">
+            <p class=" text-slate-500">Питомец: </p>
+            <span class="text-sky-600">{{pet.type}}</span>
+        </div>
+        <div class="flex w-full gap-1">
+            <p class=" text-slate-500">Пол: </p>
+            <span class="text-sky-600">{{pet.sex}}</span>
+        </div>
+        <div class="flex w-full gap-1">
+            <p class=" text-slate-500">Возрост: </p>
+            <span class="text-sky-600">{{pet.age}}</span>
+        </div>
+    </div>
+</fuse-card>
