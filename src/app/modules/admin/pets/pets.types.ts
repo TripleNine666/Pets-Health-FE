@@ -8,6 +8,14 @@ export interface PetModel {
     orders: PetOrder[];
 }
 
+export interface PetCreateModel {
+    name: string;
+    age: number;
+    type: string;
+    breed: string;
+    sex: string;
+}
+
 export interface PetOrder {
     date: Date;
     title: string;

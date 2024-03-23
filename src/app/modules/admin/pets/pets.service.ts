@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { EndpointsHelper } from '../../../core/helpers/Endpoints.helper';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { PetModel } from './pets.types';
+import { PetCreateModel, PetModel } from './pets.types';
 
 @Injectable({
     providedIn: 'root',
@@ -41,5 +41,22 @@ export class PetsService {
         return this._http
             .get<PetModel>(`${this._baseUrl}${EndpointsHelper.pets}/${id}`)
             .pipe(tap((pet: PetModel) => this._petFullInfo.next(pet)));
+    }
+
+    createPet(pet: PetCreateModel) {
+        return this._http.post(`${this._baseUrl}${EndpointsHelper.pets}`, pet);
+    }
+
+    updatePet(pet: PetCreateModel, petId: string) {
+        return this._http.patch(
+            `${this._baseUrl}${EndpointsHelper.pets}/${petId}${EndpointsHelper.profile}`,
+            pet,
+        );
+    }
+
+    deletePet(petId: string) {
+        return this._http.delete(
+            `${this._baseUrl}${EndpointsHelper.pets}/${petId}`,
+        );
     }
 }

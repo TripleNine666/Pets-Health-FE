@@ -1,0 +1,6 @@
+<h2 class="text-2xl font-bold" mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>{{ data.message }}</mat-dialog-content>
+<mat-dialog-actions class="flex justify-end items-center">
+    <button (click)="onConfirm()" color="accent" mat-button>Подтвердить</button>
+    <button (click)="onDismiss()" color="warn" mat-button>Отмена</button>
+</mat-dialog-actions>

@@ -6,7 +6,7 @@
         </button>
         <div class="flex flex-wrap gap-4 justify-center">
             @for (pet of petsService.pets$ | async; track pet._id) {
-                <app-pet-item routerLink="{{pet._id}}" class="w-120 " [pet]="pet"></app-pet-item>
+                <app-pet-item class="w-120 " [pet]="pet"></app-pet-item>
             }
         </div>
     </div>

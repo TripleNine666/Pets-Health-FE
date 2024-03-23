@@ -2,21 +2,33 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FuseCardComponent } from '../../../../../@fuse/components/card';
 import { PetsService } from '../pets.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UrlHelpers } from '../../../../core/helpers/UrlHelpers';
 import { Subscription } from 'rxjs';
-import { PetModel, PetTypeEnum } from '../pets.types';
+import { PetModel, PetSexEnum, PetTypeEnum } from '../pets.types';
 import {
     FormBuilder,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-pet-create-edit',
     standalone: true,
-    imports: [CommonModule, FuseCardComponent],
+    imports: [
+        CommonModule,
+        FuseCardComponent,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatButtonModule,
+        RouterLink,
+    ],
     templateUrl: './pet-create-edit.component.html',
     styleUrl: './pet-create-edit.component.scss',
 })
@@ -24,13 +36,14 @@ export class PetCreateEditComponent implements OnInit, OnDestroy {
     idEditMode: boolean;
     subscription: Subscription = new Subscription();
     petFullInfo: PetModel;
+    petId: string;
 
     petFormGroup: FormGroup = this.fb.group({
         name: [
             '',
             [
                 Validators.required,
-                Validators.minLength(5),
+                Validators.minLength(2),
                 Validators.maxLength(255),
             ],
         ],
@@ -43,16 +56,19 @@ export class PetCreateEditComponent implements OnInit, OnDestroy {
             '',
             [
                 Validators.required,
-                Validators.minLength(5),
+                Validators.minLength(2),
                 Validators.maxLength(255),
             ],
         ],
         sex: [null, [Validators.required]],
     });
+    protected readonly PetTypeEnum = PetTypeEnum;
+    protected readonly PetSexEnum = PetSexEnum;
 
     constructor(
         private petsService: PetsService,
         private route: ActivatedRoute,
+        private router: Router,
         private fb: FormBuilder,
     ) {}
 
@@ -94,9 +110,30 @@ export class PetCreateEditComponent implements OnInit, OnDestroy {
         this.petsService.resetPetFullInfo();
     }
 
+    onSubmit() {
+        if (this.petFormGroup.invalid) return;
+        if (!this.idEditMode)
+            this.petsService
+                .createPet(this.petFormGroup.getRawValue())
+                .subscribe({
+                    next: () => {
+                        this.router.navigate(['..']);
+                    },
+                });
+        else
+            this.petsService
+                .updatePet(this.petFormGroup.getRawValue(), this.petId)
+                .subscribe({
+                    next: () => {
+                        this.router.navigate(['..']);
+                    },
+                });
+    }
+
     private checkEditMode() {
-        this.idEditMode =
-            this.route.snapshot.url[0]?.path !== UrlHelpers.create;
+        const urpParameter = this.route.snapshot.url[0]?.path;
+        this.idEditMode = urpParameter !== UrlHelpers.create;
+        if (this.idEditMode) this.petId = urpParameter;
     }
 
     private iniPetFormGroup() {
@@ -105,6 +142,5 @@ export class PetCreateEditComponent implements OnInit, OnDestroy {
         this.type.setValue(this.petFullInfo.type);
         this.breed.setValue(this.petFullInfo.breed);
         this.sex.setValue(this.petFullInfo.sex);
-        console.log(this.petFormGroup);
     }
 }

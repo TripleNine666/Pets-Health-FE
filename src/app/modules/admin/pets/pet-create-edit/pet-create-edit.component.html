@@ -8,8 +8,43 @@
 
         }
 
-        <fuse-card class="w-full flex flex-col gap-2">
-
+        <fuse-card class="w-full flex flex-col gap-2 p-6 mat-elevation-z4">
+            <form (submit)="onSubmit()" [formGroup]="petFormGroup" class="w-full">
+                <mat-form-field class="w-full">
+                    <mat-label>Кличка</mat-label>
+                    <input formControlName="name" matInput placeholder="Введите кличку питомца"/>
+                </mat-form-field>
+                <div class="flex items-center justify-between gap-2">
+                    <mat-form-field class="w-full">
+                        <mat-label>Вид</mat-label>
+                        <mat-select formControlName="type" placeholder="Выберите вид питомца">
+                            <mat-option [value]="PetTypeEnum.dog">{{ PetTypeEnum.dog }}</mat-option>
+                            <mat-option [value]="PetTypeEnum.cat">{{ PetTypeEnum.cat }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Порода</mat-label>
+                        <input formControlName="breed" matInput placeholder="Введите породу питомца"/>
+                    </mat-form-field>
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                    <mat-form-field class="w-full">
+                        <mat-label>Пол</mat-label>
+                        <mat-select formControlName="sex" placeholder="Выберите пол питомца">
+                            <mat-option [value]="PetSexEnum.male">{{ PetSexEnum.male }}</mat-option>
+                            <mat-option [value]="PetSexEnum.felmale">{{ PetSexEnum.felmale }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Возраст</mat-label>
+                        <input formControlName="age" matInput placeholder="Введите возраст питомца" type="number"/>
+                    </mat-form-field>
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                    <button color="warn" mat-raised-button routerLink="../" type="button">Назад</button>
+                    <button color="primary" mat-raised-button type="submit">Сохранить</button>
+                </div>
+            </form>
         </fuse-card>
     </div>
 </div>
