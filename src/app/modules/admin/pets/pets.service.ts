@@ -33,30 +33,33 @@ export class PetsService {
 
     getAllPets() {
         return this._http
-            .get<PetModel[]>(`${this._baseUrl}${EndpointsHelper.pets}`)
+            .get<PetModel[]>(`${this._baseUrl}${EndpointsHelper.UrlPets}`)
             .pipe(tap((pets: PetModel[]) => this._pets.next(pets)));
     }
 
     getPetById(id: string) {
         return this._http
-            .get<PetModel>(`${this._baseUrl}${EndpointsHelper.pets}/${id}`)
+            .get<PetModel>(`${this._baseUrl}${EndpointsHelper.UrlPets}/${id}`)
             .pipe(tap((pet: PetModel) => this._petFullInfo.next(pet)));
     }
 
     createPet(pet: PetCreateModel) {
-        return this._http.post(`${this._baseUrl}${EndpointsHelper.pets}`, pet);
+        return this._http.post(
+            `${this._baseUrl}${EndpointsHelper.UrlPets}`,
+            pet,
+        );
     }
 
     updatePet(pet: PetCreateModel, petId: string) {
         return this._http.patch(
-            `${this._baseUrl}${EndpointsHelper.pets}/${petId}${EndpointsHelper.profile}`,
+            `${this._baseUrl}${EndpointsHelper.UrlPets}/${petId}${EndpointsHelper.UrlProfile}`,
             pet,
         );
     }
 
     deletePet(petId: string) {
         return this._http.delete(
-            `${this._baseUrl}${EndpointsHelper.pets}/${petId}`,
+            `${this._baseUrl}${EndpointsHelper.UrlPets}/${petId}`,
         );
     }
 }

@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup" class="w-full">
+
+
+    <fuse-card class="w-full p-6 flex flex-col">
+        <div class="font-bold text-3xl w-full text-center">Выберите услугу</div>
+        <mat-form-field class="w-full">
+            <mat-label>Услуга</mat-label>
+            <mat-select formControlName="serviceControl">
+                @for (service of servicesService.services$ | async; track service._id) {
+                    <mat-option [value]="service._id">{{ service.title }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        @if (serviceControl?.value) {
+            <mat-form-field class="w-full">
+                <mat-label>Под услуга</mat-label>
+                <mat-select formControlName="subServiceControl">
+                    @for (sub of servicesService.subservices(serviceControl.value); track sub) {
+                        <mat-option [value]="sub._id">{{ sub.name }}
+                            - {{ sub.price |currency: 'BYN' }}
+                        </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        }
+        <mat-card-actions class="flex justify-end">
+            <button [disabled]="formGroup.invalid" color="primary" mat-raised-button>Найти клинику</button>
+        </mat-card-actions>
+    </fuse-card>
+</form>
