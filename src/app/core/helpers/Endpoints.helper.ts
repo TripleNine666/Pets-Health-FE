@@ -5,4 +5,6 @@ export class EndpointsHelper {
     static readonly UrlPets = '/pets';
     static readonly UrlProfile = '/profile';
     static readonly UrlService = '/service';
+
+    static readonly UrlClinic = '/clinic';
 }

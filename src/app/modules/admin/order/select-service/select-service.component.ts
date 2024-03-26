@@ -11,6 +11,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import {Router, RouterLink} from "@angular/router";
+import {UrlHelpers} from "../../../../core/helpers/UrlHelpers";
 
 @Component({
     selector: 'app-select-service',
@@ -23,6 +25,7 @@ import localeDeExtra from '@angular/common/locales/extra/de';
         ReactiveFormsModule,
         MatCardModule,
         MatButtonModule,
+        RouterLink,
     ],
     providers: [
         {
@@ -85,4 +88,6 @@ export class SelectServiceComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
     }
+
+    protected readonly UrlHelpers = UrlHelpers;
 }
