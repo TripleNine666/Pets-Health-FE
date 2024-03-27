@@ -6,6 +6,7 @@ import {RouterLink} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import {UrlHelpers} from "../../../../../core/helpers/UrlHelpers";
 
 @Component({
   selector: 'app-clinic-item',
@@ -25,4 +26,6 @@ export class ClinicItemComponent {
     constructor() {
         registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     }
+
+    protected readonly UrlHelpers = UrlHelpers;
 }

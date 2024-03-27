@@ -3,7 +3,8 @@ import { OrderComponent } from './order.component';
 import { SelectServiceComponent } from './select-service/select-service.component';
 import {UrlHelpers} from "../../../core/helpers/UrlHelpers";
 import {ClinicListComponent} from "./clinic-list/clinic-list.component";
-import {ClinicsResolver} from "./order.resolvers";
+import {ClinicResolver, ClinicsResolver} from "./order.resolvers";
+import {ClinicCreateOrderComponent} from "./clinic-list/clinic-create-order/clinic-create-order.component";
 
 export default [
     {
@@ -19,6 +20,13 @@ export default [
                 component: ClinicListComponent,
                 resolve: {
                     clinics: ClinicsResolver
+                },
+            },
+            {
+                path: `:id`,
+                component: ClinicCreateOrderComponent,
+                resolve: {
+                    clinic: ClinicResolver
                 }
             },
         ],

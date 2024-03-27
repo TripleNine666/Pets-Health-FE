@@ -44,8 +44,14 @@ export class OrderService {
     }
 
     getClinicsByService(serviceId: string) {
-        return this._http.get<ClinicModel[]>(`${this._baseUrl}${EndpointsHelper.UrlClinic}/${serviceId}`).pipe(
+        return this._http.get<ClinicModel[]>(`${this._baseUrl}${EndpointsHelper.UrlClinic}${EndpointsHelper.UrlService}/${serviceId}`).pipe(
             tap(clinics => this._clinicsList.next(clinics))
+        )
+    }
+
+    getClinicById(id: string) {
+        return this._http.get<ClinicModel>(`${this._baseUrl}${EndpointsHelper.UrlClinic}/${id}`).pipe(
+            tap(console.log)
         )
     }
 }
