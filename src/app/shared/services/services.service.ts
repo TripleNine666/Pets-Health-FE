@@ -18,7 +18,11 @@ export class ServicesService {
     constructor(private _http: HttpClient) {}
 
     get services$(): Observable<ServiceModel[]> {
+
         return this._services.asObservable();
+    }
+    get services(): ServiceModel[] {
+        return this._services.getValue();
     }
 
     public subservices(id: string) {

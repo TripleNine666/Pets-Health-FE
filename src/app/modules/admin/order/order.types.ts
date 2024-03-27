@@ -5,9 +5,16 @@ export interface SelectedServiceModel {
     subServiceId: string;
 }
 export interface ClinicModel {
+    _id: string;
     name: string;
     email: string;
     phone: string;
     services: ServiceModel[];
     address: string;
+}
+
+export interface SelectedServiceNameModel {
+    title: string;
+    name: string;
+    price: number;
 }

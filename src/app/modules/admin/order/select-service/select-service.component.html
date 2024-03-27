@@ -24,7 +24,7 @@
             </mat-form-field>
         }
         <mat-card-actions class="flex justify-end">
-            <button [disabled]="formGroup.invalid" color="primary" mat-raised-button routerLink="{{UrlHelpers.clinics}}" [queryParams]="{serviceId: serviceControl.value}">Найти клинику</button>
+            <button [disabled]="formGroup.invalid" color="primary" mat-raised-button routerLink="{{UrlHelpers.clinics}}" [queryParams]="{serviceId: serviceControl.value, subServiceId: subServiceControl.value}">Найти клинику</button>
         </mat-card-actions>
     </fuse-card>
 </form>

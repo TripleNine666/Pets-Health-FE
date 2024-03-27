@@ -14,14 +14,13 @@ export default [
                 path: '',
                 component: SelectServiceComponent,
             },
+            {
+                path: `${UrlHelpers.clinics}`,
+                component: ClinicListComponent,
+                resolve: {
+                    clinics: ClinicsResolver
+                }
+            },
         ],
-
-    },
-    {
-        path: `${UrlHelpers.clinics}`,
-        component: ClinicListComponent,
-        resolve: {
-            clinics: ClinicsResolver
-        }
     },
 ] as Routes;
