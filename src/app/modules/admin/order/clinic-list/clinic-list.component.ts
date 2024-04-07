@@ -22,16 +22,7 @@ export class ClinicListComponent implements OnInit{
     }
 
     private checkSelectedService() {
-        console.log('ага')
         if (this.selectedService) return
-        this.route.queryParams.subscribe(params => {
-            const selectedServices: SelectedServiceModel = {
-                serviceId: params['serviceId'],
-                subServiceId: params['subServiceId']
-            }
-            console.log(selectedServices)
-            this.orderService.setSelectedService(selectedServices)
-            this.selectedService = this.orderService.getSelectedServiceName()
-        })
+         this.orderService.checkSelectedService().subscribe(value => this.selectedService = value)
     }
 }

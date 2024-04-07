@@ -1,1 +1,35 @@
-<p>clinic-create-order works!</p>
+<fuse-card class="flex flex-col w-full p-6 gap-2">
+    <div class="font-bold text-3xl w-full text-center">Запись на прием в {{clinicFullInfo.name}}</div>
+    <div class="text-lg">Категория: <span class="font-bold">{{selectedService.title}}</span></div>
+    <div class="text-lg">Предоставляемая услуга: <span class="font-bold">{{selectedService.name}} {{selectedService.price | currency: 'BYN'}}</span></div>
+    <form [formGroup]="orderForm" (submit)="onSubmit()">
+        <mat-form-field class="w-full">
+            <mat-label>Выбор питомца</mat-label>
+            <mat-select formControlName="pet">
+                @for (pet of petsService.pets$ | async; track pet._id) {
+                    <mat-option [value]="pet._id">{{pet.type}} {{pet.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <div class="flex items-center justify-between gap-4">
+            <mat-form-field class="w-full">
+                <mat-label>Дата</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>Время</mat-label>
+                <input matInput [formControl]="timeControl" [format]="24" [ngxTimepicker]="toggleTimepicker" [disableClick]="true" readonly>
+                <ngx-material-timepicker-toggle  [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
+                <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
+            </mat-form-field>
+        </div>
+        <div class="flex justify-between items-center">
+            <button mat-raised-button color="warn" (click)="back()" type="button">Отмена</button>
+            <button [disabled]="orderForm.invalid" mat-raised-button color="primary" type="submit">Записаться</button>
+        </div>
+    </form>
+</fuse-card>
+
+

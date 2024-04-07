@@ -18,3 +18,11 @@ export interface SelectedServiceNameModel {
     name: string;
     price: number;
 }
+
+export interface CreateOrder {
+    date: Date,
+    title: string,
+    name: string,
+    price: number,
+    clinicId: string
+}

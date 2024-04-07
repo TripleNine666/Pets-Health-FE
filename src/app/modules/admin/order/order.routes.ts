@@ -5,6 +5,8 @@ import {UrlHelpers} from "../../../core/helpers/UrlHelpers";
 import {ClinicListComponent} from "./clinic-list/clinic-list.component";
 import {ClinicResolver, ClinicsResolver} from "./order.resolvers";
 import {ClinicCreateOrderComponent} from "./clinic-list/clinic-create-order/clinic-create-order.component";
+import {PetsService} from "../pets/pets.service";
+import {inject} from "@angular/core";
 
 export default [
     {
@@ -26,7 +28,8 @@ export default [
                 path: `:id`,
                 component: ClinicCreateOrderComponent,
                 resolve: {
-                    clinic: ClinicResolver
+                    clinic: ClinicResolver,
+                    pets: () => inject(PetsService).getAllPets()
                 }
             },
         ],
