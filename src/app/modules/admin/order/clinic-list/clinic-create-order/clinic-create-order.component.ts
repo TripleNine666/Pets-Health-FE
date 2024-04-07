@@ -16,6 +16,7 @@ import {MatButtonModule} from "@angular/material/button";
   selector: 'app-clinic-create-order',
   standalone: true,
     imports: [CommonModule, FuseCardComponent, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDatepickerModule, NgxMaterialTimepickerModule, MatButtonModule],
+
   templateUrl: './clinic-create-order.component.html',
   styleUrl: './clinic-create-order.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,6 +24,7 @@ import {MatButtonModule} from "@angular/material/button";
 export class ClinicCreateOrderComponent implements OnInit, OnDestroy{
     clinicFullInfo: ClinicModel
     selectedService: SelectedServiceNameModel
+    minDate: Date = new Date()
     subscriptions: Subscription = new Subscription()
     timeControl: FormControl = this.fb.control('12:00', [Validators.required])
     orderForm: FormGroup = this.fb.group({

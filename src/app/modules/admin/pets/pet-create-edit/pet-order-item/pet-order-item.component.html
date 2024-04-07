@@ -1,0 +1,14 @@
+<fuse-card class="w-full flex flex-col gap-2 p-6 mat-elevation-z4">
+    <div class="w-full font-semibold text-3xl text-orange-500 text-center">
+        {{ order.date | date: 'medium' }}
+    </div>
+    <div class="flex w-full gap-1 items-center">
+        <p class="text-lg text-slate-500">Услуга: </p>
+        <span class="text-lg text-sky-600">{{ order.name }}</span>
+    </div>
+    <div class="flex w-full gap-1 items-center">
+        <p class="text-lg text-slate-500">Цена: </p>
+        <span class="text-lg text-sky-600">{{ order.price | currency: 'BYN'}}</span>
+    </div>
+    <app-clinic-item [isClinics]="false" [clinic]="order.clinic"></app-clinic-item>
+</fuse-card>

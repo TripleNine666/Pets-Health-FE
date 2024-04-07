@@ -2,7 +2,7 @@
     <!-- Main -->
     <div class="flex-auto py-10 px-50 flex flex-col gap-4">
         @if (idEditMode) {
-            <div class="font-bold text-3xl w-full text-center">Страница питомца</div>
+                <div class="font-bold text-3xl w-full text-center">Информация о питомце</div>
         } @else {
             <div class="font-bold text-3xl w-full text-center">Создание нового питомца</div>
 
@@ -46,5 +46,11 @@
                 </div>
             </form>
         </fuse-card>
+        @if (idEditMode && petFullInfo.orders.length) {
+            <div class="font-bold text-3xl w-full text-center">Услуги питомца</div>
+            @for (oder of petFullInfo.orders; track oder) {
+                <pet-order-item [order]="oder"></pet-order-item>
+            }
+        }
     </div>
 </div>

@@ -14,7 +14,7 @@
         <div class="flex items-center justify-between gap-4">
             <mat-form-field class="w-full">
                 <mat-label>Дата</mat-label>
-                <input matInput [matDatepicker]="picker1" formControlName="date">
+                <input [min]="minDate" matInput [matDatepicker]="picker1" formControlName="date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>

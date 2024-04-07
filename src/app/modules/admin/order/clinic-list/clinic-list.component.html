@@ -1,6 +1,6 @@
 <div class="w-full flex flex-col gap-2">
     <div class="text-lg font-bold">Список клиник с услугой: {{selectedService.title}} - {{selectedService.name}}</div>
 @for(clinic of orderService.clinicsList$ | async; track clinic._id) {
-    <app-clinic-item [clinic]="clinic"></app-clinic-item>
+    <app-clinic-item [isClinics]="true" [clinic]="clinic"></app-clinic-item>
 }
 </div>

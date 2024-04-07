@@ -16,6 +16,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import {PetOrderItemComponent} from "./pet-order-item/pet-order-item.component";
 
 @Component({
     selector: 'app-pet-create-edit',
@@ -28,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatSelectModule,
         MatButtonModule,
         RouterLink,
+        PetOrderItemComponent,
     ],
     templateUrl: './pet-create-edit.component.html',
     styleUrl: './pet-create-edit.component.scss',

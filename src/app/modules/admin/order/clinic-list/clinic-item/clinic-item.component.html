@@ -1,9 +1,16 @@
 <fuse-card class="w-full p-6 flex flex-col">
 
-    <div class="w-full font-semibold text-3xl text-orange-500 hover:text-orange-700 cursor-pointer text-center"
-         routerLink="/{{UrlHelpers.order}}/{{clinic._id}}" queryParamsHandling="merge">
-        {{ clinic.name }}
-    </div>
+    @if (isClinics) {
+        <div class="w-full font-semibold text-3xl text-orange-500 hover:text-orange-700 cursor-pointer text-center"
+             routerLink="/{{UrlHelpers.order}}/{{clinic._id}}" queryParamsHandling="merge">
+            {{ clinic.name }}
+        </div>
+    } @else {
+        <div class="w-full font-semibold text-3xl text-orange-500 text-center">
+            {{ clinic.name }}
+        </div>
+    }
+
     <div class="flex w-full gap-1 items-center">
         <p class="text-lg text-slate-500">Почта: </p>
         <span class="text-lg text-sky-600">{{ clinic.email }}</span>

@@ -1,5 +1,5 @@
-import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FuseCardComponent } from '../../../../../@fuse/components/card';
 import { ServicesService } from '../../../../shared/services/services.service';
 import { MatInputModule } from '@angular/material/input';
@@ -9,9 +9,7 @@ import { Subscription } from 'rxjs';
 import { OrderService } from '../order.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import localeDe from '@angular/common/locales/de';
-import localeDeExtra from '@angular/common/locales/extra/de';
-import {Router, RouterLink} from "@angular/router";
+import { RouterLink} from "@angular/router";
 import {UrlHelpers} from "../../../../core/helpers/UrlHelpers";
 
 @Component({
@@ -26,12 +24,6 @@ import {UrlHelpers} from "../../../../core/helpers/UrlHelpers";
         MatCardModule,
         MatButtonModule,
         RouterLink,
-    ],
-    providers: [
-        {
-            provide: LOCALE_ID,
-            useValue: 'de-DE',
-        },
     ],
     templateUrl: './select-service.component.html',
     styleUrl: './select-service.component.scss',
@@ -59,7 +51,6 @@ export class SelectServiceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        registerLocaleData(localeDe, 'de-DE', localeDeExtra);
         const selectedService = this.orderService.selectedService;
         if (selectedService) {
             this.serviceControl.setValue(selectedService.serviceId, {

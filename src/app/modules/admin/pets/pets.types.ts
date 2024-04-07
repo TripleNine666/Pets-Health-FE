@@ -1,3 +1,5 @@
+import {ClinicModel} from "../order/order.types";
+
 export interface PetModel {
     _id: string;
     name: string;
@@ -21,6 +23,7 @@ export interface PetOrder {
     title: string;
     name: string;
     price: number;
+    clinic:ClinicModel
 }
 
 export enum PetTypeEnum {
