@@ -33,14 +33,14 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         id   : 'pets',
         title: 'Мои питомцы',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'mat_outline:pets',
         link : '/pets'
     },
     {
         id   : 'orders',
         title: 'Записаться',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'mat_solid:edit_note',
         link : '/order'
     }
 ];
