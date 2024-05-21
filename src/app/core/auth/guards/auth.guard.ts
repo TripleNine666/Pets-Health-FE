@@ -7,21 +7,19 @@ export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) =>
 {
     const router: Router = inject(Router);
 
-    // Check the authentication status
+    // Проверяет статус авторизации
     return inject(AuthService).check().pipe(
         switchMap((authenticated) =>
         {
-            // If the user is not authenticated...
+            // Если пользователь не авторизован..
             if ( !authenticated )
             {
-                // Redirect to the sign-in page with a redirectUrl param
+                // Редирект на страницу sign-out
                 const redirectURL = state.url === '/sign-out' ? '' : `redirectURL=${state.url}`;
                 const urlTree = router.parseUrl(`sign-in?${redirectURL}`);
-
                 return of(urlTree);
             }
-
-            // Allow the access
+            // Открывает доступ
             return of(true);
         }),
     );
